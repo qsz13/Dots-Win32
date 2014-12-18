@@ -20,5 +20,6 @@ public:
 	void mouseUpEvent();
 	void mouseDownEvent();
 	bool allowConnect = true;
+	void mouseMove();
 };
 

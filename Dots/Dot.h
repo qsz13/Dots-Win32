@@ -19,6 +19,8 @@ public:
 	void drawDot();
 	void setMatrixCoordinate(int x, int y);
 	static WindowCoordinate matrixToWinCoord(MatrixCoordinate matrixCoord);
+	static WindowCoordinate matrixToWinCoord(int x, int y);
+
 	MatrixCoordinate getMatrixCoordinate();
 	WindowCoordinate getWindowCoordinate();
 	int getSize();
@@ -27,7 +29,7 @@ public:
 	bool visible = true;
 	void moveToMatrix(int x, int y);
 	int dropStep = 0;
-	MatrixCoordinate oldMatrixCoord;
+	void update();
 private:
 	MatrixCoordinate matrixCoord;
 	WindowCoordinate winCoord;
@@ -35,9 +37,10 @@ private:
 	HDC hdc;
 	COLORREF color;
 	PAINTSTRUCT ps;
-
+	WindowCoordinate targetWinCoord;
+	bool moving;
 	int size;
-
+	int acc=0;
 
 
 };

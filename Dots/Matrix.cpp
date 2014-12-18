@@ -18,6 +18,20 @@ Matrix::~Matrix()
 {
 }
 
+void Matrix::update()
+{
+	void drawMatrix();
+	for (VecVector::iterator vecIt = matrix.begin(); vecIt != matrix.end(); vecIt++)
+	{
+		for (DotVector::iterator dotIt = (*vecIt).begin(); dotIt != (*vecIt).end(); dotIt++)
+		{
+			(*dotIt)->update();
+		}
+	}
+
+}
+
+
 void Matrix::initMatrix()
 {
 	for (int i = 0; i < 6; i++)
@@ -212,7 +226,9 @@ void Matrix::dropDots()
 			
 
 		}
-
+		this->movingDot = movedVec.size();
+		
+		std::cout << this->movingDot;
 		for (it = movedVec.begin(); it != movedVec.end(); it++)
 		{			
 			if ((*it) != NULL)
@@ -224,8 +240,7 @@ void Matrix::dropDots()
 					int drop = (*it)->dropStep;
 					int targetX = dotX;
 					int targetY = dotY+drop;
-					int oldX = (*it)->oldMatrixCoord.x;
-					int oldY = (*it)->oldMatrixCoord.y;
+
 					if (targetY > 5)
 					{
 						break;
@@ -241,10 +256,16 @@ void Matrix::dropDots()
 		
 
 	}
-	clearDropStep();
+	//clearDropStep();
 	this->dropVec.clear();
 	this->movedVec.clear();
 	Line::getLine().hiddenVector.clear();
+	refillMatrix();
+	if (this->movingDot == 0)
+	{
+		showNewDot();
+
+	}
 	Director::getDirector().allowConnect = true;
 
 }
@@ -276,6 +297,7 @@ void Matrix::drop(Dot* dot)
 			if (std::find(movedVec.begin(), movedVec.end(), dot1) == movedVec.end())
 			{
 				this->movedVec.push_back(dot1);
+
 			}
 
 		}
@@ -284,3 +306,34 @@ void Matrix::drop(Dot* dot)
 }
 
 
+void Matrix::refillMatrix()
+{
+	for (VecVector::iterator vecIt = matrix.begin(); vecIt != matrix.end(); vecIt++)
+	{
+		for (DotVector::iterator dotIt = (*vecIt).begin(); dotIt != (*vecIt).end(); dotIt++)
+		{
+			if (*dotIt == NULL)
+			{
+				*dotIt = DotFactory::getRandomDot();
+
+				int x = vecIt - matrix.begin();
+				int y = dotIt - (*vecIt).begin();
+
+				(*dotIt)->setMatrixCoordinate(x, y);
+				(*dotIt)->visible = false;
+				this->newDots.push_back(*dotIt);
+			}
+		}
+	}
+}
+
+void Matrix::showNewDot()
+{
+	for (DotVector::iterator dotIt = newDots.begin(); dotIt != newDots.end(); dotIt++)
+	{
+		(*dotIt)->visible = true;
+	}
+
+	this->newDots.clear();
+
+}

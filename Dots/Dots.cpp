@@ -103,7 +103,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    hWnd = CreateWindowEx(WS_EX_COMPOSITED, szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
-
+  // SetWindowPos(hWnd, HWND_TOP, 300, 150, 800, 600, NULL);
    if (!hWnd)
    {
       return FALSE;
@@ -166,11 +166,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_LBUTTONUP:
 		Director::getDirector().mouseUpEvent();
-
 		break;
 	case WM_MOUSEMOVE:
 		Director::getDirector().mouseX = GET_X_LPARAM(lParam);
 		Director::getDirector().mouseY = GET_Y_LPARAM(lParam);
+		Director::getDirector().mouseMove();
 		break;
 
 	case WM_TIMER:

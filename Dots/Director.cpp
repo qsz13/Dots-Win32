@@ -18,14 +18,19 @@ Director& Director::getDirector()
 	return director;
 }
 
-void Director::update()
+void Director::mouseMove()
 {
 	if (this->mouseIsDown && allowConnect)
 	{
 		Matrix::getMatrix().addDotInLine(mouseX, mouseY);
 	}
+}
+
+void Director::update()
+{
+
 	Line::getLine().drawLine();
-	Matrix::getMatrix().drawMatrix();	
+	Matrix::getMatrix().update();
 }
 
 void Director::mouseUpEvent()

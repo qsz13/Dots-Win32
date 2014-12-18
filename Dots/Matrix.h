@@ -26,6 +26,8 @@ private:
 	vector<Dot*> dropVec;
 	vector<Dot*> movedVec;
 	void clearDropStep();
+	void drawMatrix();
+	vector<Dot*> newDots;
 
 
 public:
@@ -37,11 +39,15 @@ public:
 	int interval;
 	Dot* Matrix::getDot(MatrixCoordinate coor);
 	Dot* getDot(int x, int y);
-	void drawMatrix();
 	void addDotInLine(int mouseX, int mouseY);
 	Dot* Matrix::getNearestDot(int mouseX, int mouseY);
 	void removeDot(int x, int y);
 	void dropDots();
+	void update();
+	void refillMatrix();
+	void showNewDot();
+	int movingDot = 0;
+	
 
 };
 
