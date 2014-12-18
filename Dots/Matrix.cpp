@@ -183,10 +183,104 @@ Dot* Matrix::getDot(MatrixCoordinate coor)
 	return matrix[coor.x][coor.y];
 }
 
+Dot* Matrix::getDot(int x, int y)
+{
+	return matrix[x][y];
+}
+
 void Matrix::removeDot(int x, int y)
 {
 	delete matrix[x][y];
 	matrix[x][y] = NULL;
 
 }
+
+void Matrix::dropDots()
+{
+	this->dropVec = Line::getLine().hiddenVector;
+	if (dropVec.size() > 1)
+	{
+		vector<Dot*>::iterator it;
+		for (it = dropVec.begin(); it != dropVec.end(); it++)
+		{
+			if ((*it) != NULL)
+			{
+				drop(*it);
+				MatrixCoordinate matrixCoord = (*it)->getMatrixCoordinate();
+				matrix[matrixCoord.x][matrixCoord.y] = NULL;
+			}
+			
+
+		}
+
+		for (it = movedVec.begin(); it != movedVec.end(); it++)
+		{			
+			if ((*it) != NULL)
+			{
+				if ((*it)->dropStep > 0)
+				{
+					int dotX = (*it)->getMatrixCoordinate().x;
+					int dotY = (*it)->getMatrixCoordinate().y;
+					int drop = (*it)->dropStep;
+					int targetX = dotX;
+					int targetY = dotY+drop;
+					int oldX = (*it)->oldMatrixCoord.x;
+					int oldY = (*it)->oldMatrixCoord.y;
+					if (targetY > 5)
+					{
+						break;
+					}
+					matrix[dotX][dotY] = NULL;
+					(*it)->moveToMatrix(targetX, targetY);
+					this->matrix[targetX][targetY] = (*it);
+					(*it)->dropStep = 0;
+
+				}
+			}
+		}
+		
+
+	}
+	clearDropStep();
+	this->dropVec.clear();
+	this->movedVec.clear();
+	Line::getLine().hiddenVector.clear();
+	Director::getDirector().allowConnect = true;
+
+}
+
+void Matrix::clearDropStep()
+{
+	for (VecVector::iterator vecIt = matrix.begin(); vecIt != matrix.end(); vecIt++)
+	{
+		for (DotVector::iterator dotIt = (*vecIt).begin(); dotIt != (*vecIt).end(); dotIt++)
+		{
+			if (*dotIt != NULL)
+			{
+				(*dotIt)->dropStep = 0;
+			}
+		}
+	}
+}
+
+void Matrix::drop(Dot* dot)
+{	
+	int x = dot->getMatrixCoordinate().x;
+	int y = dot->getMatrixCoordinate().y;
+	for (int j = y-1; j >= 0; j--)
+	{
+		Dot* dot1 = getDot(x, j);
+		if (dot1 != NULL)
+		{
+			dot1->dropStep++;
+			if (std::find(movedVec.begin(), movedVec.end(), dot1) == movedVec.end())
+			{
+				this->movedVec.push_back(dot1);
+			}
+
+		}
+		
+	}
+}
+
 

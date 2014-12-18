@@ -53,15 +53,19 @@ int Dot::getSize()
 
 void Dot::drawDot()
 {
-	BeginPaint(this->hWnd, &this->ps);
-	SelectObject(this->hdc, GetStockObject(DC_BRUSH));
-	SelectObject(this->hdc, GetStockObject(DC_PEN));
-	SetDCBrushColor(this->hdc, this->color);
-	SetDCPenColor(this->hdc, this->color);
-	this->winCoord = matrixToWinCoord(this->matrixCoord);
-	Ellipse(this->hdc, this->winCoord.x - size / 2, this->winCoord.y - size / 2,
-		this->winCoord.x + size / 2, this->winCoord.y + size / 2);
-	EndPaint(this->hWnd, &ps);
+	if (this->visible)
+	{
+		BeginPaint(this->hWnd, &this->ps);
+		SelectObject(this->hdc, GetStockObject(DC_BRUSH));
+		SelectObject(this->hdc, GetStockObject(DC_PEN));
+		SetDCBrushColor(this->hdc, this->color);
+		SetDCPenColor(this->hdc, this->color);
+		this->winCoord = matrixToWinCoord(this->matrixCoord);
+		Ellipse(this->hdc, this->winCoord.x - size / 2, this->winCoord.y - size / 2,
+			this->winCoord.x + size / 2, this->winCoord.y + size / 2);
+		EndPaint(this->hWnd, &ps);
+	}
+	
 }
 
 void Dot::setMatrixCoordinate(int x, int y)
@@ -95,3 +99,14 @@ COLORREF Dot::getColor()
 {
 	return this->color;
 }
+
+void Dot::moveToMatrix(int x, int y)
+{
+	AllocConsole();
+	std::cout << x <<"    " <<y << endl;
+	this->setMatrixCoordinate(x, y);
+	this->dropStep = 0;
+
+	
+}
+

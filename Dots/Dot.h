@@ -24,8 +24,10 @@ public:
 	int getSize();
 	COLORREF getColor();
 	DotType dotType;
-
-
+	bool visible = true;
+	void moveToMatrix(int x, int y);
+	int dropStep = 0;
+	MatrixCoordinate oldMatrixCoord;
 private:
 	MatrixCoordinate matrixCoord;
 	WindowCoordinate winCoord;

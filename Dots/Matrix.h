@@ -22,6 +22,12 @@ private:
 	bool sameColor(Dot* dot1, Dot * dot2);
 	bool isNeighbour(Dot* dot1, Dot *dot2);
 	bool alreadyVisited(Dot* dot);
+	void drop(Dot *dot);
+	vector<Dot*> dropVec;
+	vector<Dot*> movedVec;
+	void clearDropStep();
+
+
 public:
 	bool mouseIsInDot = false;
 	static Matrix& getMatrix();
@@ -30,10 +36,12 @@ public:
 	int y;
 	int interval;
 	Dot* Matrix::getDot(MatrixCoordinate coor);
+	Dot* getDot(int x, int y);
 	void drawMatrix();
 	void addDotInLine(int mouseX, int mouseY);
 	Dot* Matrix::getNearestDot(int mouseX, int mouseY);
 	void removeDot(int x, int y);
+	void dropDots();
 
 };
 

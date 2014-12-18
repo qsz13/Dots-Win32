@@ -16,6 +16,7 @@ private:
 	HWND hWnd;
 	HDC hdc;
 	PAINTSTRUCT ps;
+	
 
 public:
 	static Line& getLine();
@@ -23,6 +24,7 @@ public:
 	void drawLine();
 	void addDot(Dot* dot);
 	vector<Dot*> dotVector;
+	vector<Dot*> hiddenVector;
 	void removeLine();
 
 };
