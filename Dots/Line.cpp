@@ -21,10 +21,6 @@ Line& Line::getLine()
 
 void Line::drawLine()
 {
-	AllocConsole();
-	FILE *stream;
-	freopen_s(&stream, "CONOUT$", "w", stdout);
-	//std::cout << dotVector.size()<< endl;
 
 	if (dotVector.size() > 1)
 	{
@@ -76,6 +72,7 @@ void Line::removeLine()
 	Matrix::getMatrix().mouseIsInDot = false;
 	if (this->dotVector.size()>1)
 	{
+		Director::getDirector().addScore(dotVector.size());
 		Director::getDirector().allowConnect = false;
 		vector<Dot*>::iterator it;
 		for (it = this->dotVector.begin(); it != this->dotVector.end(); it++)
@@ -96,4 +93,9 @@ void Line::removeLine()
 	}
 
 
+}
+
+void Line::update()
+{
+	this->drawLine();
 }

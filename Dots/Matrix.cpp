@@ -7,10 +7,12 @@ typedef std::vector<DotVector> VecVector;
 
 Matrix::Matrix()
 {
+
+	this->x = 150;
+	this->y = 170;
+	this->interval = 70;
 	this->initMatrix();
-	this->x = 50;
-	this->y = 50;
-	this->interval = 50;
+
 }
 
 
@@ -78,12 +80,13 @@ Dot* Matrix::getNearestDot(int mouseX, int mouseY)
 
 
 
-	float tempX = (float)mouseX / this->interval;
-	float tempY = (float)mouseY / this->interval;
+	float tempX = ((float)mouseX - x) / this->interval;
+	float tempY = ((float)mouseY - y) / this->interval;
+
 	int dotX = tempX + 0.5;
 	int dotY = tempY + 0.5;
 
-	if (dotX > 6)
+	if (dotX >= 6)
 	{
 		dotX = 5;
 	}
@@ -91,11 +94,8 @@ Dot* Matrix::getNearestDot(int mouseX, int mouseY)
 	{
 		dotX = 0;
 	}
-	else
-	{
-		dotX--;
-	}
-	if (dotY > 6)
+
+	if (dotY >= 6)
 	{
 		dotY = 5;
 	}
@@ -103,17 +103,14 @@ Dot* Matrix::getNearestDot(int mouseX, int mouseY)
 	{
 		dotY = 0;
 	}
-	else
-	{
-		dotY--;
-	}
+	
 
 	MatrixCoordinate matrixCoord;
 	matrixCoord.x = dotX;
 	matrixCoord.y = dotY;
 
 
-
+	cout << "X" << dotX << endl;
 
 	return getDot(matrixCoord);
 }
@@ -145,7 +142,7 @@ void Matrix::addDotInLine(int mouseX, int mouseY)
 
 
 	Dot* nearestDot = getNearestDot(mouseX, mouseY);
-
+	std::cout << nearestDot->getMatrixCoordinate().y << " " << nearestDot->getMatrixCoordinate().y << endl;
 		if (mouseInDot(mouseX, mouseY, nearestDot))
 		{
 			if (mouseIsInDot == false)
@@ -336,4 +333,10 @@ void Matrix::showNewDot()
 
 	this->newDots.clear();
 
+}
+
+void Matrix::newMatrix()
+{
+	this->matrix.clear();
+	this->initMatrix();
 }

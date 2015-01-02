@@ -16,16 +16,18 @@ private:
 	HWND hWnd;
 	HDC hdc;
 	PAINTSTRUCT ps;
+	void drawLine();
 	
 
 public:
 	static Line& getLine();
 	~Line();
-	void drawLine();
+
 	void addDot(Dot* dot);
 	vector<Dot*> dotVector;
 	vector<Dot*> hiddenVector;
 	void removeLine();
+	void update();
 
 };
 

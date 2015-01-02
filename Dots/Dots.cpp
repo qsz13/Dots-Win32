@@ -101,9 +101,9 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    hInst = hInstance; // Store instance handle in our global variable
 
-   hWnd = CreateWindowEx(WS_EX_COMPOSITED, szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+   hWnd = CreateWindowEx(WS_EX_COMPOSITED, szWindowClass, szTitle, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
-  // SetWindowPos(hWnd, HWND_TOP, 300, 150, 800, 600, NULL);
+   SetWindowPos(hWnd, HWND_TOP, 300, 50, 800, 700, NULL);
    if (!hWnd)
    {
       return FALSE;
@@ -134,9 +134,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	case WM_CREATE:
-		SetTimer(hWnd, 1, 1, NULL);
+		SetTimer(hWnd, 0, 1000, NULL);
 		Director::getDirector().hWnd = hWnd;
 		std::srand(GetTickCount64());
+	
 	case WM_COMMAND:
 		wmId    = LOWORD(wParam);
 		wmEvent = HIWORD(wParam);
@@ -156,7 +157,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
 		Director::getDirector().update();
-		EndPaint(hWnd, &ps);
+		EndPaint(hWnd, &ps); 
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
@@ -172,9 +173,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		Director::getDirector().mouseY = GET_Y_LPARAM(lParam);
 		Director::getDirector().mouseMove();
 		break;
-
+	case WM_KEYDOWN:
+		switch (wParam)
+		{
+		case 0x53://S
+			Director::getDirector().startGame();
+			break;
+		case 0x51://Q
+			Director::getDirector().stopGame();
+			break;
+		}
+		break;
 	case WM_TIMER:
-
+		
+		Director::getDirector().timerEvent();
+		
 		break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
@@ -201,3 +214,5 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	return (INT_PTR)FALSE;
 }
+
+

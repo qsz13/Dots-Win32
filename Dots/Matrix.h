@@ -47,7 +47,7 @@ public:
 	void refillMatrix();
 	void showNewDot();
 	int movingDot = 0;
-	
+	void newMatrix();
 
 };
 

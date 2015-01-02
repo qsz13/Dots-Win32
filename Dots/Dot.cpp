@@ -118,7 +118,7 @@ void Dot::moveToMatrix(int x, int y)
 	this->targetWinCoord = matrixToWinCoord(x, y);
 	this->setMatrixCoordinate(x, y);
 	this->dropStep = 0;
-	this->acc = 1;
+	this->acc = 3;
 	this->moving = true;
 }
 
@@ -130,7 +130,11 @@ void Dot::update()
 		if (this->winCoord.y < this->targetWinCoord.y)
 		{
 			this->winCoord.y+=acc;
-			acc++;
+			if (acc < 30)
+			{
+				acc += 5;
+			}
+			
 		}
 		else
 		{
