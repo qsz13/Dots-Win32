@@ -2,6 +2,7 @@
 #include "Matrix.h"
 #include "Line.h"
 #include "Text.h"
+#include <Mmsystem.h>
 
 
 class Director
@@ -21,6 +22,10 @@ private:
 	void loadText();
 	int maxScore;
 	int currentScore;
+	
+	MCIDEVICEID  dev[20];
+	MCI_OPEN_PARMS mciOpen;
+	MCI_PLAY_PARMS mciPlay;
 
 public:
 	static Director& getDirector();
@@ -39,5 +44,6 @@ public:
 	void startGame();
 	void stopGame();
 	void addScore(int s);
+	void playBackgroundMusic();
 };
 

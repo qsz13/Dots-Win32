@@ -122,3 +122,18 @@ void Director::addScore(int s)
 		maxScore = currentScore;
 	}
 }
+
+void Director::playBackgroundMusic()
+{
+	
+
+	mciOpen.lpstrElementName = "background.wma";
+	if (mciSendCommand(NULL, MCI_OPEN, MCI_OPEN_ELEMENT, (DWORD)&mciOpen) == 0)
+		dev[0] = mciOpen.wDeviceID;
+	else
+		mciOpen.wDeviceID = dev[0];
+
+	mciPlay.dwFrom = 0;
+	mciSendCommand(mciOpen.wDeviceID, MCI_PLAY, MCI_NOTIFY | MCI_FROM, (DWORD)&mciPlay);
+
+}

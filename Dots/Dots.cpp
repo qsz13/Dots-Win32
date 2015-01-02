@@ -136,8 +136,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_CREATE:
 		SetTimer(hWnd, 0, 1000, NULL);
 		Director::getDirector().hWnd = hWnd;
+		Director::getDirector().playBackgroundMusic();
 		std::srand(GetTickCount64());
-	
+		
 	case WM_COMMAND:
 		wmId    = LOWORD(wParam);
 		wmEvent = HIWORD(wParam);
